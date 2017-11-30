@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if user.nickname %}
+    <h1> hi, {{ user.nickname }}</h1>
+    {% endif %}
+
+    <div class="container">
+        <div class="column-left">
+
+            <div class="tabs">
+                <input id="tab1" type="radio" name="tabs" checked>
+                <label for="tab1" title="вкладка1">вкладка 1</label>
+
+                <input id="tab2" type="radio" name="tabs">
+                <label for="tab2" title="вкладка2">вкладка 2</label>
+
+                <section id="content-tab1">
+                    123
+                </section>
+                <section id="content-tab2">
+                    321
+                </section>
+            </div>
+
+            <br>
+            журнал затрат и доходов
+
+        </div>
+        <div class="column-center">
+
+            <table>
+                <tr>
+                    <td>остаток</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>6</td>
+                </tr>
+            </table>
+            <br>
+            управление счетами
+        </div>
+
+        <div class="column-right">
+
+            журнал перевода и обмена
+
+        </div>
+    </div>
+{% endblock %}
