@@ -46,3 +46,7 @@
         font-size: 18px;
     }
 }
+
+.dialog{
+    display: none;
+}
