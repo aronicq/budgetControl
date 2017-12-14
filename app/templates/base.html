@@ -4,18 +4,14 @@
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../static/style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
         <script src="http://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="//www.cbr-xml-daily.ru/daily_jsonp.js"></script>
         <meta charset="UTF-8">
-        {% if title %}
-        <title>title</title>
-        {% else %}
-        <title>default title</title>
-        {% endif %}
     </head>
     <body>
-        <div> myapp: <a href="/">home</a></div>
-        <hr>
     {% block content %}
     {% endblock %}
     </body>

@@ -1,10 +1,11 @@
 
-                <table>
+                <table style="border: solid black;
+                border-width: 1px 1px; margin: 50px 20px;
+                padding: 100px;">
                     {% for elem in list %}
                     <tr>
-                        <td>{{ elem }}</td>
-                        <td><button  id="{{ elem.id }}" class="edit{{op}}Bttn"> Edit element </button></td>
-                        <td><button  id="{{ elem.id }}" class="delete{{op}}Bttn">Delete element</button></td>
+                        <td style="padding: 10px">{{ elem }}</td>
+                        <td><button  id="{{ elem.id }}" class="edit{{op}}Bttn"> Изменить состояние счёта </button></td>
                     </tr>
                     {% endfor %}
                 </table>

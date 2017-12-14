@@ -1,12 +1,16 @@
-.column-left{ float: left; width: 33%; }
-.column-right{ float: right; width: 33%; }
-.column-center{ display: inline-block; width: 33%; }
+.column-left{ margin: 5px ; float: left; width: 40%; }
+.column-right{ margin: 5px; float: right; width: 21%; }
+.column-center{ margin: 5px; display: inline-block; width: 33%; }
+
+table{
+    padding: 3px;
+}
 
 .tabs{
     min-width: 320px;
-    max-width: 800px;
+
     padding: 0;
-    margin: 0 auto;
+    margin: 0;
 }
 
 .tabs>section{
@@ -33,7 +37,62 @@
     background: #f1f1f1;
     border-radius: 3px 3px 0 0 ;
 }
+
+#tab1{
+    background: beige;
+}
+
+#content-tab1{
+    background: beige;
+}
+
+#content-tab2{
+    background: aliceblue;
+}
+
+
+#tab1:checked, #tab2:checked{
+    color: bisque;
+}
+
 #tab1:checked~#content-tab1, #tab2:checked~#content-tab2{
+    display: block;
+
+}
+
+.historytabs{
+    min-width: 320px;
+    max-width: 800px;
+    padding: 0;
+    margin: 0 auto;
+}
+
+.historytabs>section{
+    display: none;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+}
+
+.historytabs>input{
+    display: none;
+    position: absolute;
+}
+
+.historytabs>label{
+    display: inline-block;
+    margin: 0 0 -1px;
+    padding: 15px 25px;
+    font-weight: 600;
+    text-align: center;
+    color: #aaa;
+    border: 0px solid #ddd;
+    border-width: 1px 1px 1px 1px;
+    background: #f1f1f1;
+    border-radius: 3px 3px 0 0 ;
+}
+
+#historytab1:checked~#content-historytab1, #historytab2:checked~#content-historytab2{
     display: block;
 }
 

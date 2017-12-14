@@ -1,165 +1,399 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1> hello </h1>
 
     <div class="container">
         <div class="column-left">
 
             <div class="tabs">
                 <input id="tab1" type="radio" name="tabs" checked>
-                <label for="tab1" title="вкладка1">вкладка 1</label>
+                <label for="tab1" style="background: beige;" title="вкладка1">Добавить поступление</label>
 
                 <input id="tab2" type="radio" name="tabs">
-                <label for="tab2" title="вкладка2">вкладка 2</label>
+                <label for="tab2" style="background: aliceblue;" title="вкладка2">Добавить трату</label>
 
-                <section id="content-tab1">
+                <section id="content-tab1" style="background: beige;">
                     <form id="submitincome" role="form" method="post" onsubmit="return false;">
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                         <table>
                             <tr>
                                 <td>Дата поступления</td>
-                                <td>{{ form.date }}</td>
+                                <td>{{ addIncForm.date }}</td>
                             </tr>
                             <tr>
                                 <td>Имя поступления</td>
-                                <td>{{ form.name }}</td>
+                                <td>{{ addIncForm.name }}</td>
                             </tr>
                             <tr>
                                 <td>Сумма поступления</td>
-                                <td>{{ form.sum }}</td>
+                                <td>{{ addIncForm.sum }}</td>
                             </tr>
                             <tr>
                                 <td>Источник поступления</td>
-                                <td>{{ form.source }}</td>
+                                <td>{{ addIncForm.source }}</td>
                             </tr>
                             <tr>
                                 <td>Тег поступления</td>
-                                <td>{{ form.tag }}</td>
+                                <td>{{ addIncForm.tag }}</td>
                             </tr>
                             <tr>
                                 <td>Счёт поступления</td>
-                                <td>{{ form.account }}</td>
+                                <td>{{ addIncForm.account }}</td>
+                            </tr>
+                            <tr>
+                                <td>Валюта</td>
+                                <td>{{  addIncForm.currency }}</td>
                             </tr>
                         </table>
                         <button type="submit" class="btn btn-primary">Добавить доход</button>
 
                     </form>
                 </section>
-                <section id="content-tab2">
-                    321
+                <section id="content-tab2" style="background: aliceblue;">
+
+                    <form id="submitwaste" role="form" method="post" onsubmit="return false;">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <table>
+                            <tr>
+                                <td>Дата траты</td>
+                                <td>{{ addWasForm.date }}</td>
+                            </tr>
+                            <tr>
+                                <td>Имя траты</td>
+                                <td>{{ addWasForm.name }}</td>
+                            </tr>
+                            <tr>
+                                <td>Сумма траты</td>
+                                <td>{{ addWasForm.sum }}</td>
+                            </tr>
+                            <tr>
+                                <td>Категория расхода</td>
+                                <td>{{ addWasForm.category }}</td>
+                            </tr>
+                            <tr>
+                                <td>Тег траты</td>
+                                <td>{{ addWasForm.tag }}</td>
+                            </tr>
+                            <tr>
+                                <td>Счёт списания</td>
+                                <td>{{ addWasForm.account }}</td>
+                            </tr>
+                            <tr>
+                                <td>Валюта</td>
+                                <td>{{ addWasForm.currency }}</td>
+                            </tr>
+                        </table>
+                        <button type="submit" class="btn btn-primary">Добавить трату</button>
+
+                    </form>
                 </section>
             </div>
 
             <br>
 
-            <h3>журнал затрат и доходов</h3> <div id="filterLink">Фильтр</div>
-            <div id="incomeTable">
+            <h3>журнал затрат и доходов</h3>
 
-                <table>
-                    {% for elem in list %}
-                    <tr>
-                        <td>{{ elem }}</td>
-                        <td><button  id="{{ elem.id }}" class="editBttn"> Edit element </button></td>
-                        <td><button  id="{{ elem.id }}" class="deleteBttn">Delete element</button></td>
-                    </tr>
-                    {% endfor %}
-                </table>
+            <div class="historytabs">
+
+                <input id="historytab1" type="radio" name="historytabs" checked>
+                <label for="historytab1" style="background: beige;" title="вкладка1">История зачислений</label>
+
+                <input id="historytab2" type="radio" name="historytabs">
+                <label for="historytab2" style="background: aliceblue" title="вкладка2">История трат</label>
+
+                <section id="content-historytab1" style="background: beige;">
+                    <div id="filterIncLink">Фильтр</div>
+                    <div id="incomeTable">
+                        <table>
+                            {% for elem in listInc %}
+                            <tr>
+                                <td>{{ elem }}</td>
+                                <td><button id="{{ elem.id }}" class="editincBttn">Изменить</button></td>
+                                <td><button id="{{ elem.id }}" class="deleteincBttn">Удалить</button></td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </section>
+                <section id="content-historytab2" style="background: aliceblue;">
+                    <div id="filterWasLink">Фильтр</div>
+                    <div id="wasteTable" class="hideable">
+                        <table>
+                            {% for elem in listWas %}
+                            <tr>
+                                <td>{{ elem }}</td>
+                                <td><button id="{{ elem.id }}" class="editwasBttn">Изменить </button></td>
+                                <td><button id="{{ elem.id }}" class="deletewasBttn">Удалить</button></td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </section>
             </div>
 
         </div>
         <div class="column-center">
+            <div id="accTable">
+                <table style="border: solid black;
+                border-width: 1px 1px; margin: 50px 20px;">
+                    {% for a in acc %}
+                    <tr>
+                        <td style="padding: 10px">{{ a }}</td>
+                        <td><button id="{{ a.id }}" class="editaccBttn">Редактировать</button></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <br>
 
-            <table>
-                <tr>
-                    <td>остаток</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>4</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>6</td>
-                </tr>
-            </table>
-            <br>
-            управление счетами
+            </div>
+
+            <form id="submitAcc" role="form" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <table>
+                    <tr>
+                        <td>Название счёта</td>
+                        <td>{{ addAccForm.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Баланс</td>
+                        <td>{{ addAccForm.balance }}</td>
+                    </tr>
+                </table>
+                <button type="submit">Добавить счёт</button>
+            </form>
         </div>
+        <div class="column-right" style="border: solid black;
+        border-width: 1px 1px; margin: 50px 20px;">
+            <div id="USD">Доллар США $ — 00,0000 руб.</div>
+            <div id="EUR">Евро € — 00,0000 руб.</div>
 
-        <div class="column-right">
-            журнал перевода и обмена
+            <script>
+                function CBR_XML_Daily_Ru(rates) {
+                    function trend(current, previous) {
+                        if (current > previous) return ' ▲';
+                        if (current < previous) return ' ▼';
+                        return '';
+                    }
+
+                    var USDrate = rates.Valute.USD.Value.toFixed(4).replace('.', ',');
+                    var USD = document.getElementById('USD');
+                    USD.innerHTML = USD.innerHTML.replace('00,0000', USDrate);
+                    USD.innerHTML += trend(rates.Valute.USD.Value, rates.Valute.USD.Previous);
+
+                    var EURrate = rates.Valute.EUR.Value.toFixed(4).replace('.', ',');
+                    var EUR = document.getElementById('EUR');
+                    EUR.innerHTML = EUR.innerHTML.replace('00,0000', EURrate);
+                    EUR.innerHTML += trend(rates.Valute.EUR.Value, rates.Valute.EUR.Previous);
+                }
+            </script>
+            <script src="//www.cbr-xml-daily.ru/daily_jsonp.js"></script>
         </div>
     </div>
-    <div id="filter" style="display: none;">
-        <form id="filterForm" role="form">
+    <div id="filterInc" style="display: none;">
+        <form id="filterIncForm" role="form">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <table>
                 <tr>
                     <td>По периоду:</td>
-                    <td>{{ filterform.period }}</td>
+                    <td>{{ filterIncForm.period }}</td>
                 </tr>
                 <tr>
                     <td>По счёту:</td>
-                    <td>{{ filterform.account }}</td>
+                    <td>{{ filterIncForm.account }}</td>
                 </tr>
                 <tr>
                     <td>По источнику:</td>
-                    <td>{{ filterform.source }}</td>
+                    <td>{{ filterIncForm.source }}</td>
                 </tr>
             </table>
             <button id="submit" class="btn btn-primary">Показать</button>
         </form>
     </div>
-    <div id="changePopup" style="display: none;">
-        <form id="submitchange" role="form" method="post" onsubmit="return false;">
+
+    <div id="filterWas" style="display: none;">
+        <form id="filterWasForm" role="form">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <table>
                 <tr>
-                    <td>Дата поступления</td>
-                    <td>{{ editForm.date }}</td>
+                    <td>По периоду:</td>
+                    <td>{{ filterWasForm.period }}</td>
                 </tr>
                 <tr>
+                    <td>По счёту:</td>
+                    <td>{{ filterWasForm.account }}</td>
+                </tr>
+                <tr>
+                    <td>По источнику:</td>
+                    <td>{{ filterWasForm.category }}</td>
+                </tr>
+            </table>
+            <button id="submit" class="btn btn-primary">Показать</button>
+        </form>
+    </div>
+
+
+    <div id="changeAccPopup" style="display: none;">
+        <form id="submitAccchange" role="form" method="post" onsubmit="return false;">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <table>
+                <tr>
                     <td>Имя поступления</td>
-                    <td>{{ editForm.name }}</td>
+                    <td>{{ editAccForm.name }}</td>
                 </tr>
                 <tr>
                     <td>Сумма поступления</td>
-                    <td>{{ editForm.sum }}</td>
-                </tr>
-                <tr>
-                    <td>Тег поступления</td>
-                    <td>{{ editForm.tag }}</td>
-                </tr>
-                <tr>
-                    <td>Источник поступления</td>
-                    <td>{{ editForm.source }}</td>
-                </tr>
-                <tr>
-                    <td>Счёт поступления</td>
-                    <td>{{ editForm.account }}</td>
+                    <td>{{ editAccForm.balance }}</td>
                 </tr>
             </table>
             <button id="submit" class="btn btn-primary">Добавить доход</button>
         </form>
     </div>
-<script>
 
-    function objectifyForm(formArray) {
-        var returnArray = {};
-        for(var i = 0; i < formArray.length; i++) {
-            returnArray[formArray[i]['name']] = formArray[i]['value'];
-        }
-        alert(JSON.stringify(returnArray));
-        return returnArray;
-    }
+    <div id="changeIncPopup" style="display: none;">
+        <form id="submitIncchange" role="form" method="post" onsubmit="return false;">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <table>
+                <tr>
+                    <td>Дата поступления</td>
+                    <td>{{ editIncForm.date }}</td>
+                </tr>
+                <tr>
+                    <td>Имя поступления</td>
+                    <td>{{ editIncForm.name }}</td>
+                </tr>
+                <tr>
+                    <td>Сумма поступления</td>
+                    <td>{{ editIncForm.sum }}</td>
+                </tr>
+                <tr>
+                    <td>Тег поступления</td>
+                    <td>{{ editIncForm.tag }}</td>
+                </tr>
+                <tr>
+                    <td>Источник поступления</td>
+                    <td>{{ editIncForm.source }}</td>
+                </tr>
+                <tr>
+                    <td>Счёт поступления</td>
+                    <td>{{ editIncForm.account }}</td>
+                </tr>
+            </table>
+            <button id="submit" class="btn btn-primary">Добавить доход</button>
+        </form>
+    </div>
+    <div id="changeWasPopup" style="display: none;">
+        <form id="submitWaschange" role="form" method="post" onsubmit="return false;">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <table>
+                <tr>
+                    <td>Дата поступления</td>
+                    <td>{{ editWasForm.date }}</td>
+                </tr>
+                <tr>
+                    <td>Имя поступления</td>
+                    <td>{{ editWasForm.name }}</td>
+                </tr>
+                <tr>
+                    <td>Сумма поступления</td>
+                    <td>{{ editWasForm.sum }}</td>
+                </tr>
+                <tr>
+                    <td>Тег поступления</td>
+                    <td>{{ editWasForm.tag }}</td>
+                </tr>
+                <tr>
+                    <td>Источник поступления</td>
+                    <td>{{ editWasForm.source }}</td>
+                </tr>
+                <tr>
+                    <td>Счёт поступления</td>
+                    <td>{{ editWasForm.account }}</td>
+                </tr>
+            </table>
+            <button id="submit" class="btn btn-primary">Добавить доход</button>
+        </form>
+    </div>
+
+<script>
     $(document).ready(function () {
-        $('#filterLink').on('click', function () {
-            $('#filter').dialog();
-            $('#filterForm').submit(function (e) {
+        $('#submitAcc').submit(function (e) {
+            e.preventDefault();
+            alert("waste");
+            var dt = $('#submitAcc').serializeArray();
+            dt.push({name: "type", value: "add"});
+            dt.push({name: "table", value: "acc"});
+            req = $.ajax({
+                type: "POST",
+                url: '/',
+                data: objectifyForm(dt)
+            });
+            req.done(function (data) {
+                $('#accTable').html(data);
+            })
+        });
+
+        $(document).on('click', '.deleteaccBttn', function(){
+            alert("deleting");
+            $.confirm({
+                title: 'confirm',
+                content: 'simple confirms',
+                buttons: {
+                    confirm: function(){
+                    $.alert("comfirmed");
+                    },
+                    cancel: function(){
+                    $.alert("canceled");
+                    }
+                }
+            });
+            var dt = $('form').serializeArray();
+            dt.push({name: "type", value: "delete"});
+            dt.push({name: "id", value: this.id});
+            dt.push({name: "table", value: "acc"});
+            req = $.ajax({
+                type: "POST",
+                url: '/',
+                data: objectifyForm(dt)
+            });
+            req.done(function (data) {
+                $('#accTable').html(data)
+            });
+        });
+
+        $(document).on('click', '.editaccBttn', function() {
+            var tempid = this.id;
+            $('#changeAccPopup').dialog({
+                width: 400,
+                height: 300
+            });
+            alert(tempid);
+            $('#submitAccchange').submit(function (e) {
                 e.preventDefault();
-                var dt = $('#filterForm').serializeArray();
+                alert("change");
+                var dt = $('#submitAccchange').serializeArray();
+                dt.push({name: "type", value: "edit"});
+                dt.push({name: "id", value: tempid});
+                dt.push({name: "table", value: "acc"});
+                req = $.ajax({
+                    type: "POST",
+                    url: '/',
+                    data: objectifyForm(dt),
+                    success: function () {
+                        alert("success")
+                    }
+                });
+                req.done(function (data) {
+                    $('#accTable').html(data)
+                });
+            });
+        });
+
+        $('#filterIncLink').on('click', function () {
+            $('#filterInc').dialog();
+            $('#filterIncForm').submit(function (e) {
+                e.preventDefault();
+                var dt = $('#filterIncForm').serializeArray();
                 dt.push({name: "type", value: "filter"});
+                dt.push({name: "table", value: "income"});
                 req = $.ajax({
                     type: "POST",
                     url: '/',
@@ -175,36 +409,13 @@
             })
         });
 
-        $(document).on('click', '.deleteBttn', function(){
-            alert("deleting");
-            var dt = $('form').serializeArray();
-            dt.push({name: "type", value: "delete"});
-            dt.push({name: "id", value: this.id});
-            req = $.ajax({
-                type: "POST",
-                url: '/',
-                data: objectifyForm(dt)
-            });
-
-            req.done(function (data) {
-                $('#incomeTable').html(data)
-            });
-        });
-
-        $(document).on('click', '.editBttn', function() {
-
-            var tempid = this.id;
-            $('#changePopup').dialog({
-                width: 400,
-                height: 300
-            });
-            alert(tempid);
-            $('#submitchange').submit(function (e) {
+        $('#filterWasLink').on('click', function () {
+            $('#filterWas').dialog();
+            $('#filterWasForm').submit(function (e) {
                 e.preventDefault();
-                alert("change");
-                var dt = $('#submitchange').serializeArray();
-                dt.push({name: "type", value: "edit"});
-                dt.push({name: "id", value: tempid});
+                var dt = $('#filterWasForm').serializeArray();
+                dt.push({name: "type", value: "filter"});
+                dt.push({name: "table", value: "waste"});
                 req = $.ajax({
                     type: "POST",
                     url: '/',
@@ -215,10 +426,97 @@
                 });
 
                 req.done(function (data) {
+                    $('#wasteTable').html(data)
+                });
+            })
+        });
+
+        $(document).on('click', '.deleteincBttn', function(){
+            alert("deleting");
+            var dt = $('form').serializeArray();
+            dt.push({name: "type", value: "delete"});
+            dt.push({name: "id", value: this.id});
+            dt.push({name: "table", value: "income"});
+            req = $.ajax({
+                type: "POST",
+                url: '/',
+                data: objectifyForm(dt)
+            });
+            req.done(function (data) {
+                $('#incomeTable').html(data)
+            });
+        });
+
+        $(document).on('click', '.deletewasBttn', function(){
+            alert("deleting");
+            var dt = $('form').serializeArray();
+            dt.push({name: "type", value: "delete"});
+            dt.push({name: "id", value: this.id});
+            dt.push({name: "table", value: "waste"});
+            req = $.ajax({
+                type: "POST",
+                url: '/',
+                data: objectifyForm(dt)
+            });
+            req.done(function (data) {
+                $('#wasteTable').html(data)
+            });
+        });
+
+        $(document).on('click', '.editIncBttn', function() {
+            var tempid = this.id;
+            $('#changeIncPopup').dialog({
+                width: 400,
+                height: 300
+            });
+            alert(tempid);
+            $('#submitIncchange').submit(function (e) {
+                e.preventDefault();
+                alert("change");
+                var dt = $('#submitIncchange').serializeArray();
+                dt.push({name: "type", value: "edit"});
+                dt.push({name: "id", value: tempid});
+                dt.push({name: "table", value: "income"});
+                req = $.ajax({
+                    type: "POST",
+                    url: '/',
+                    data: objectifyForm(dt),
+                    success: function () {
+                        alert("success")
+                    }
+                });
+                req.done(function (data) {
                     $('#incomeTable').html(data)
                 });
             });
-            del(i);
+        });
+
+        $(document).on('click', '.editWasBttn', function() {
+            var tempid = this.id;
+            $('#changeWasPopup').dialog({
+                width: 400,
+                height: 300
+            });
+            alert(tempid);
+            $('#submitWaschange').submit(function (e) {
+                e.preventDefault();
+                alert("change");
+                var dt = $('#submitWaschange').serializeArray();
+                dt.push({name: "type", value: "edit"});
+                dt.push({name: "id", value: tempid});
+                dt.push({name: "table", value: "waste"});
+                req = $.ajax({
+                    type: "POST",
+                    url: '/',
+                    data: objectifyForm(dt),
+                    success: function () {
+                        alert("success")
+                    }
+                });
+                req.done(function (data) {
+                    $('#wasteTable').html(data)
+                });
+            });
         });
 
         $('#submitincome').submit(function (e) {
@@ -226,6 +524,7 @@
             alert("income");
             var dt = $('#submitincome').serializeArray();
             dt.push({name: "type", value: "add"});
+            dt.push({name: "table", value: "income"});
             req = $.ajax({
                 type: "POST",
                 url: '/',
@@ -235,6 +534,23 @@
             req.done(function (data) {
                 $('#incomeTable').html(data);
 
+            })
+        });
+
+        $('#submitwaste').submit(function (e) {
+            e.preventDefault();
+            alert("waste");
+            var dt = $('#submitwaste').serializeArray();
+            dt.push({name: "type", value: "add"});
+            dt.push({name: "table", value: "waste"});
+            req = $.ajax({
+                type: "POST",
+                url: '/',
+                data: objectifyForm(dt)
+            });
+
+            req.done(function (data) {
+                $('#wasteTable').html(data);
             })
         });
     });
