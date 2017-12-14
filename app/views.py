@@ -36,7 +36,7 @@ def index():
             if request.form['type'] == "add":
                 form = forms.AddAccount(request.form)
                 if not (form['name'].data != '' and form['balance'].data != ''):
-                    ellist = tableName[request.form['table']].query.all()
+                    ellist = models.Accounts.query.all()
                     return render_template("accountsSection.html", op=request.form['table'][:3], list=ellist,
                                            error=True)
 

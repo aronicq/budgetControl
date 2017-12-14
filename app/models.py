@@ -11,7 +11,7 @@ class Income(db.Model):
     source = db.Column(db.String(120), db.ForeignKey('Sources.id').name)
     currency = db.Column(db.String(10), db.ForeignKey('Currency.id').name)
     def __repr__(self):
-        return self.name + ": " + str(self.sum) + " from " + str(self.source)
+        return self.name + ": " + str(self.sum) + " дата: " + str(self.date)
 
 
 class Waste(db.Model):
@@ -57,6 +57,7 @@ class Tags(db.Model):
 class Sources(db.Model):
     name = db.Column(db.String(120))
     id = db.Column(db.Integer, primary_key=True)
+
 
 
 class Currency(db.Model):

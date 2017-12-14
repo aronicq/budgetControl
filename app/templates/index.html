@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
 
+
     <div class="container">
         <div class="column-left">
 
             <div class="tabs">
                 <input id="tab1" type="radio" name="tabs" checked>
-                <label for="tab1" style="background: beige;" title="вкладка1">Добавить поступление</label>
+                <label for="tab1" style="background: beige;" title="вкладка1">вкладка 1</label>
 
                 <input id="tab2" type="radio" name="tabs">
-                <label for="tab2" style="background: aliceblue;" title="вкладка2">Добавить трату</label>
+                <label for="tab2" style="background: aliceblue;" title="вкладка2">вкладка 2</label>
 
                 <section id="content-tab1" style="background: beige;">
                     <form id="submitincome" role="form" method="post" onsubmit="return false;">
@@ -95,10 +96,10 @@
             <div class="historytabs">
 
                 <input id="historytab1" type="radio" name="historytabs" checked>
-                <label for="historytab1" style="background: beige;" title="вкладка1">История зачислений</label>
+                <label for="historytab1" style="background: beige;" title="вкладка1">вкладка 1</label>
 
                 <input id="historytab2" type="radio" name="historytabs">
-                <label for="historytab2" style="background: aliceblue" title="вкладка2">История трат</label>
+                <label for="historytab2" style="background: aliceblue" title="вкладка2">вкладка 2</label>
 
                 <section id="content-historytab1" style="background: beige;">
                     <div id="filterIncLink">Фильтр</div>
@@ -107,7 +108,7 @@
                             {% for elem in listInc %}
                             <tr>
                                 <td>{{ elem }}</td>
-                                <td><button id="{{ elem.id }}" class="editincBttn">Изменить</button></td>
+                                <td><button id="{{ elem.id }}" class="editincBttn">Изменить </button></td>
                                 <td><button id="{{ elem.id }}" class="deleteincBttn">Удалить</button></td>
                             </tr>
                             {% endfor %}
@@ -121,7 +122,7 @@
                             {% for elem in listWas %}
                             <tr>
                                 <td>{{ elem }}</td>
-                                <td><button id="{{ elem.id }}" class="editwasBttn">Изменить </button></td>
+                                <td><button id="{{ elem.id }}" class="editwasBttn">Изменить</button></td>
                                 <td><button id="{{ elem.id }}" class="deletewasBttn">Удалить</button></td>
                             </tr>
                             {% endfor %}
@@ -134,11 +135,11 @@
         <div class="column-center">
             <div id="accTable">
                 <table style="border: solid black;
-                border-width: 1px 1px; margin: 50px 20px;">
+        border-width: 1px 1px; margin: 50px 20px;">
                     {% for a in acc %}
                     <tr>
                         <td style="padding: 10px">{{ a }}</td>
-                        <td><button id="{{ a.id }}" class="editaccBttn">Редактировать</button></td>
+                        <td><button id="{{ a.id }}" class="editaccBttn">Изменить состояние счёта  </button></td>
                     </tr>
                     {% endfor %}
                 </table>
@@ -161,29 +162,29 @@
                 <button type="submit">Добавить счёт</button>
             </form>
         </div>
-        <div class="column-right" style="border: solid black;
-        border-width: 1px 1px; margin: 50px 20px;">
+
+        <div class="column-right" style="padding: 50px 5px">
             <div id="USD">Доллар США $ — 00,0000 руб.</div>
             <div id="EUR">Евро € — 00,0000 руб.</div>
 
             <script>
-                function CBR_XML_Daily_Ru(rates) {
-                    function trend(current, previous) {
-                        if (current > previous) return ' ▲';
-                        if (current < previous) return ' ▼';
-                        return '';
-                    }
-
-                    var USDrate = rates.Valute.USD.Value.toFixed(4).replace('.', ',');
-                    var USD = document.getElementById('USD');
-                    USD.innerHTML = USD.innerHTML.replace('00,0000', USDrate);
-                    USD.innerHTML += trend(rates.Valute.USD.Value, rates.Valute.USD.Previous);
-
-                    var EURrate = rates.Valute.EUR.Value.toFixed(4).replace('.', ',');
-                    var EUR = document.getElementById('EUR');
-                    EUR.innerHTML = EUR.innerHTML.replace('00,0000', EURrate);
-                    EUR.innerHTML += trend(rates.Valute.EUR.Value, rates.Valute.EUR.Previous);
+            function CBR_XML_Daily_Ru(rates) {
+                function trend(current, previous) {
+                    if (current > previous) return ' ▲';
+                    if (current < previous) return ' ▼';
+                    return '';
                 }
+
+                var USDrate = rates.Valute.USD.Value.toFixed(4).replace('.', ',');
+                var USD = document.getElementById('USD');
+                USD.innerHTML = USD.innerHTML.replace('00,0000', USDrate);
+                USD.innerHTML += trend(rates.Valute.USD.Value, rates.Valute.USD.Previous);
+
+                var EURrate = rates.Valute.EUR.Value.toFixed(4).replace('.', ',');
+                var EUR = document.getElementById('EUR');
+                EUR.innerHTML = EUR.innerHTML.replace('00,0000', EURrate);
+                EUR.innerHTML += trend(rates.Valute.EUR.Value, rates.Valute.EUR.Previous);
+            }
             </script>
             <script src="//www.cbr-xml-daily.ru/daily_jsonp.js"></script>
         </div>
@@ -244,7 +245,7 @@
                     <td>{{ editAccForm.balance }}</td>
                 </tr>
             </table>
-            <button id="submit" class="btn btn-primary">Добавить доход</button>
+            <button id="submit" class="btn btn-primary">Принять</button>
         </form>
     </div>
 
@@ -277,7 +278,7 @@
                     <td>{{ editIncForm.account }}</td>
                 </tr>
             </table>
-            <button id="submit" class="btn btn-primary">Добавить доход</button>
+            <button id="submit" class="btn btn-primary">Принять</button>
         </form>
     </div>
     <div id="changeWasPopup" style="display: none;">
@@ -309,15 +310,23 @@
                     <td>{{ editWasForm.account }}</td>
                 </tr>
             </table>
-            <button id="submit" class="btn btn-primary">Добавить доход</button>
+            <button id="submit" class="btn btn-primary">Принять</button>
         </form>
     </div>
-
 <script>
+
+    function objectifyForm(formArray) {
+        var returnArray = {};
+        for(var i = 0; i < formArray.length; i++) {
+            returnArray[formArray[i]['name']] = formArray[i]['value'];
+        }
+        return returnArray;
+    }
     $(document).ready(function () {
+
+
         $('#submitAcc').submit(function (e) {
             e.preventDefault();
-            alert("waste");
             var dt = $('#submitAcc').serializeArray();
             dt.push({name: "type", value: "add"});
             dt.push({name: "table", value: "acc"});
@@ -332,19 +341,6 @@
         });
 
         $(document).on('click', '.deleteaccBttn', function(){
-            alert("deleting");
-            $.confirm({
-                title: 'confirm',
-                content: 'simple confirms',
-                buttons: {
-                    confirm: function(){
-                    $.alert("comfirmed");
-                    },
-                    cancel: function(){
-                    $.alert("canceled");
-                    }
-                }
-            });
             var dt = $('form').serializeArray();
             dt.push({name: "type", value: "delete"});
             dt.push({name: "id", value: this.id});
@@ -365,10 +361,8 @@
                 width: 400,
                 height: 300
             });
-            alert(tempid);
             $('#submitAccchange').submit(function (e) {
                 e.preventDefault();
-                alert("change");
                 var dt = $('#submitAccchange').serializeArray();
                 dt.push({name: "type", value: "edit"});
                 dt.push({name: "id", value: tempid});
@@ -376,10 +370,7 @@
                 req = $.ajax({
                     type: "POST",
                     url: '/',
-                    data: objectifyForm(dt),
-                    success: function () {
-                        alert("success")
-                    }
+                    data: objectifyForm(dt)
                 });
                 req.done(function (data) {
                     $('#accTable').html(data)
@@ -397,10 +388,7 @@
                 req = $.ajax({
                     type: "POST",
                     url: '/',
-                    data: objectifyForm(dt),
-                    success: function () {
-                        alert("success")
-                    }
+                    data: objectifyForm(dt)
                 });
 
                 req.done(function (data) {
@@ -419,10 +407,7 @@
                 req = $.ajax({
                     type: "POST",
                     url: '/',
-                    data: objectifyForm(dt),
-                    success: function () {
-                        alert("success")
-                    }
+                    data: objectifyForm(dt)
                 });
 
                 req.done(function (data) {
@@ -432,7 +417,6 @@
         });
 
         $(document).on('click', '.deleteincBttn', function(){
-            alert("deleting");
             var dt = $('form').serializeArray();
             dt.push({name: "type", value: "delete"});
             dt.push({name: "id", value: this.id});
@@ -448,7 +432,6 @@
         });
 
         $(document).on('click', '.deletewasBttn', function(){
-            alert("deleting");
             var dt = $('form').serializeArray();
             dt.push({name: "type", value: "delete"});
             dt.push({name: "id", value: this.id});
@@ -463,27 +446,23 @@
             });
         });
 
-        $(document).on('click', '.editIncBttn', function() {
+        $(document).on('click', '.editincBttn', function() {
             var tempid = this.id;
             $('#changeIncPopup').dialog({
                 width: 400,
                 height: 300
             });
-            alert(tempid);
             $('#submitIncchange').submit(function (e) {
                 e.preventDefault();
-                alert("change");
                 var dt = $('#submitIncchange').serializeArray();
                 dt.push({name: "type", value: "edit"});
                 dt.push({name: "id", value: tempid});
                 dt.push({name: "table", value: "income"});
+                dt.push({name: "currency", value: ""});
                 req = $.ajax({
                     type: "POST",
                     url: '/',
-                    data: objectifyForm(dt),
-                    success: function () {
-                        alert("success")
-                    }
+                    data: objectifyForm(dt)
                 });
                 req.done(function (data) {
                     $('#incomeTable').html(data)
@@ -491,13 +470,12 @@
             });
         });
 
-        $(document).on('click', '.editWasBttn', function() {
+        $(document).on('click', '.editwasBttn', function() {
             var tempid = this.id;
             $('#changeWasPopup').dialog({
                 width: 400,
                 height: 300
             });
-            alert(tempid);
             $('#submitWaschange').submit(function (e) {
                 e.preventDefault();
                 alert("change");
@@ -508,10 +486,7 @@
                 req = $.ajax({
                     type: "POST",
                     url: '/',
-                    data: objectifyForm(dt),
-                    success: function () {
-                        alert("success")
-                    }
+                    data: objectifyForm(dt)
                 });
                 req.done(function (data) {
                     $('#wasteTable').html(data)
@@ -521,10 +496,10 @@
 
         $('#submitincome').submit(function (e) {
             e.preventDefault();
-            alert("income");
             var dt = $('#submitincome').serializeArray();
             dt.push({name: "type", value: "add"});
             dt.push({name: "table", value: "income"});
+            dt.push({name: "currency", value: ""});
             req = $.ajax({
                 type: "POST",
                 url: '/',
@@ -539,7 +514,6 @@
 
         $('#submitwaste').submit(function (e) {
             e.preventDefault();
-            alert("waste");
             var dt = $('#submitwaste').serializeArray();
             dt.push({name: "type", value: "add"});
             dt.push({name: "table", value: "waste"});
